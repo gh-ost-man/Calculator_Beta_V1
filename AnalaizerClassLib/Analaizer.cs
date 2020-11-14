@@ -208,7 +208,7 @@ namespace AnalaizerClassLib
         }
 
         /// <summary>
-        ///  Error 02 at < i > — Невідомий оператор на<i> символі.
+        ///  Error 02 — Невідомий оператор на i символі.
         /// </summary>
         private static bool Error2(string expression)
         {
@@ -220,17 +220,8 @@ namespace AnalaizerClassLib
 
             //text[i] != '(' && text[i] != ')'
             for (int i = 0; i < expression.Length; i++)
-            {
                 if (!Char.IsDigit(expression[i]) && ingnore.IndexOf(expression[i]) == -1)
-                {
                     if ((op.IndexOf(expression[i]) == -1)) throw new Exception(errors[1] + $" на {i}");
-                    //{
-
-                    //    Console.WriteLine(errors[1] + $" на {i}");
-                    //    break;
-                    //}
-                }
-            }
 
             return true;
         }
@@ -243,12 +234,8 @@ namespace AnalaizerClassLib
             string op = "+-*/";
 
             for (int i = 0; i < expression.Length; i++)
-            {
                 if (op.IndexOf(expression[i]) != -1 && i + 1 != expression.Length)
-                {
                     if (op.IndexOf(expression[i + 1]) != -1) throw new Exception(errors[3]);
-                }
-            }
             return true;
         }
 
