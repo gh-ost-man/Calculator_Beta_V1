@@ -353,14 +353,13 @@
             // 
             this.textBox_Expression.Location = new System.Drawing.Point(86, 7);
             this.textBox_Expression.Name = "textBox_Expression";
-            this.textBox_Expression.ReadOnly = true;
             this.textBox_Expression.Size = new System.Drawing.Size(188, 20);
             this.textBox_Expression.TabIndex = 25;
             // 
             // label_Result
             // 
             this.label_Result.AutoSize = true;
-            this.label_Result.Location = new System.Drawing.Point(36, 43);
+            this.label_Result.Location = new System.Drawing.Point(22, 35);
             this.label_Result.Name = "label_Result";
             this.label_Result.Size = new System.Drawing.Size(37, 13);
             this.label_Result.TabIndex = 14;
@@ -369,7 +368,7 @@
             // label_Expression
             // 
             this.label_Expression.AutoSize = true;
-            this.label_Expression.Location = new System.Drawing.Point(36, 15);
+            this.label_Expression.Location = new System.Drawing.Point(22, 10);
             this.label_Expression.Name = "label_Expression";
             this.label_Expression.Size = new System.Drawing.Size(58, 13);
             this.label_Expression.TabIndex = 15;
