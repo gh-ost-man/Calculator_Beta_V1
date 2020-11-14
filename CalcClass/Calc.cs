@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalcClass
 {
-    public static class CalcClass
+    public static class Calc
     {
         /// <summary>
         /// Функція складання двох чисел
@@ -80,15 +80,8 @@ namespace CalcClass
         /// <returns></returns>
         public static double IABS(double a)
         {
-            if (a < 0)
-            {
-                return -a;
-            }
-
-            if (a > 0)
-            {
-                return -a;
-            }
+            if (a < 0) return -a;
+            if (a > 0) return -a;
 
             return 0;
         }
