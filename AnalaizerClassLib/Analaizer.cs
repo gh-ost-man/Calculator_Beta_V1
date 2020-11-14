@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
@@ -61,7 +62,7 @@ namespace AnalaizerClassLib
             string output = string.Empty;
             double result = 0;
 
-            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res))
+            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res) && Error8(res))
             {
                 output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
                 result = Counting(output); //Решаем полученное выражение
@@ -323,6 +324,39 @@ namespace AnalaizerClassLib
 
             return true;
 
+        }
+
+        /// <summary>
+        /// Сумарна кiлькiсть чисел i операторiв перевищує 30.",
+        /// </summary>
+        private static bool Error8(string expression)
+        {
+            string num = string.Empty;
+            string operatores = "+/*-";
+
+            ArrayList ar = new ArrayList();
+
+            for (int i = 0; i < expression.Length; i++)
+            {
+                if (Char.IsDigit(expression[i]))
+                {
+                    num += expression[i];
+                }
+                else
+                {
+                    if (num != string.Empty)
+                    {
+                        ar.Add(Convert.ToInt32(num));
+                        num = string.Empty;
+                    }
+                }
+
+                if (operatores.IndexOf(expression[i]) != -1) ar.Add(expression[i]);
+            }
+
+            if (ar.Count > 30) throw new Exception(errors[7]);
+
+            return true;
         }
     }
 }
