@@ -122,5 +122,7 @@ namespace Calculcator
             }
             catch (Exception ex) { textBox_Result.Text = ex.Message; }
         }
+
+        
     }
 }
