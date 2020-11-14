@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalcClass
 {
-    public static class CalcClass
+    public static class Calc
     {
         /// <summary>
         /// Функція складання двох чисел
