@@ -109,5 +109,18 @@ namespace Calculcator
         {
             textBox_Expression.Text = textBox_Expression.Text + "+";
         }
+
+        private void button_total_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double res = 0;
+
+                res = Analaizer.Calculate(textBox_Expression.Text);
+
+                textBox_Result.Text = res.ToString();
+            }
+            catch (Exception ex) { textBox_Result.Text = ex.Message; }
+        }
     }
 }
