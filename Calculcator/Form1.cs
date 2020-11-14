@@ -25,6 +25,7 @@ namespace Calculcator
 
         private void button_Backspace_Click(object sender, EventArgs e)
         {
+            if (textBox_Expression.Text.Length == 0) return;
             textBox_Expression.Text = textBox_Expression.Text.Remove((textBox_Expression.Text.Length - 1), 1);
         }
 
