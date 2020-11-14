@@ -15,7 +15,6 @@ namespace Calculcator
         public Calculator()
         {
             InitializeComponent();
-      
         }
 
         private void button_1_Click(object sender, EventArgs e)
