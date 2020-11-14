@@ -246,11 +246,7 @@ namespace AnalaizerClassLib
             {
                 if (op.IndexOf(expression[i]) != -1 && i + 1 != expression.Length)
                 {
-                    if (op.IndexOf(expression[i + 1]) != -1)
-                    {
-                        Console.WriteLine(errors[3] + $" на {i}");
-                        break;
-                    }
+                    if (op.IndexOf(expression[i + 1]) != -1) throw new Exception(errors[3]);
                 }
             }
             return true;
