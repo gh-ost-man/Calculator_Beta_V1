@@ -1,6 +1,6 @@
 ﻿namespace Calculcator
 {
-    partial class Form1
+    partial class Calculator
     {
         /// <summary>
         /// Required designer variable.
@@ -138,7 +138,7 @@
             // 
             // textBox_Result
             // 
-            this.textBox_Result.Location = new System.Drawing.Point(86, 35);
+            this.textBox_Result.Location = new System.Drawing.Point(100, 40);
             this.textBox_Result.Name = "textBox_Result";
             this.textBox_Result.ReadOnly = true;
             this.textBox_Result.Size = new System.Drawing.Size(164, 20);
@@ -146,7 +146,7 @@
             // 
             // textBox_Expression
             // 
-            this.textBox_Expression.Location = new System.Drawing.Point(86, 7);
+            this.textBox_Expression.Location = new System.Drawing.Point(100, 12);
             this.textBox_Expression.Name = "textBox_Expression";
             this.textBox_Expression.ReadOnly = true;
             this.textBox_Expression.Size = new System.Drawing.Size(164, 20);
@@ -347,6 +347,7 @@
             // 
             // button_1
             // 
+            button_1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             button_1.Location = new System.Drawing.Point(18, 139);
             button_1.Name = "button_1";
             button_1.Size = new System.Drawing.Size(41, 37);
@@ -358,7 +359,7 @@
             // label_Result
             // 
             this.label_Result.AutoSize = true;
-            this.label_Result.Location = new System.Drawing.Point(22, 38);
+            this.label_Result.Location = new System.Drawing.Point(36, 43);
             this.label_Result.Name = "label_Result";
             this.label_Result.Size = new System.Drawing.Size(37, 13);
             this.label_Result.TabIndex = 14;
@@ -367,16 +368,17 @@
             // label_Expression
             // 
             this.label_Expression.AutoSize = true;
-            this.label_Expression.Location = new System.Drawing.Point(22, 10);
+            this.label_Expression.Location = new System.Drawing.Point(36, 15);
             this.label_Expression.Name = "label_Expression";
             this.label_Expression.Size = new System.Drawing.Size(58, 13);
             this.label_Expression.TabIndex = 15;
             this.label_Expression.Text = "Expression";
             // 
-            // Form1
+            // Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(296, 315);
             this.Controls.Add(this.groupBox_Editing);
             this.Controls.Add(this.textBox_Result);
@@ -403,7 +405,10 @@
             this.Controls.Add(button_1);
             this.Controls.Add(this.label_Result);
             this.Controls.Add(this.label_Expression);
-            this.Name = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "Calculator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calculator";
             this.groupBox_Editing.ResumeLayout(false);
