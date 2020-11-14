@@ -215,6 +215,7 @@
             button_Mod.TabIndex = 12;
             button_Mod.Text = "Mod";
             button_Mod.UseVisualStyleBackColor = true;
+            button_Mod.Click += new System.EventHandler(this.button_Mod_Click);
             // 
             // button_Zero
             // 

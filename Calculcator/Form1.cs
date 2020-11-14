@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AnalaizerClassLib;
+using CalcLibrary;
 
 namespace Calculcator
 {
@@ -17,6 +18,8 @@ namespace Calculcator
         {
             InitializeComponent();
         }
+
+
 
         private void button_1_Click(object sender, EventArgs e)
         {
@@ -119,12 +122,26 @@ namespace Calculcator
                 res = Analaizer.Calculate(textBox_Expression.Text);
 
                 textBox_Result.Text = res.ToString();
+                textBox_Expression.Text = string.Empty;
             }
             catch (Exception ex) { textBox_Result.Text = ex.Message; }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void button_Mod_Click(object sender, EventArgs e)
         {
+            if (textBox_Expression.Text == string.Empty || textBox_Result.Text == string.Empty) return;
+
+            string symb = "{}()[]@#$%^&/*-+";
+
+            for (int i = 0; i < textBox_Expression.Text.Length; i++)
+                if (symb.IndexOf(textBox_Expression.Text[i]) != -1) return;
+
+
+            double n1 = Convert.ToDouble(textBox_Result.Text);
+            double n2 = Convert.ToDouble(textBox_Expression.Text);
+
+            textBox_Result.Text = Calc.Mod(n1,n2).ToString();
+
 
         }
     }
