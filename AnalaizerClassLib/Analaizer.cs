@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
+using CalcLibrary;
 
 namespace AnalaizerClassLib
 {
@@ -23,14 +24,24 @@ namespace AnalaizerClassLib
                 "Помилка дiлення на 0."
              };
 
-        //Метод возвращает true, если проверяемый символ - разделитель ("пробел" или "равно")
+        /// <summary>
+        /// Метод возвращает true, если проверяемый символ - разделитель ("пробел" или "равно")
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        /// 
         static private bool IsDelimeter(char c)
         {
             if ((" =".IndexOf(c) != -1))
                 return true;
             return false;
         }
-        //Метод возвращает true, если проверяемый символ - оператор
+
+        /// <summary>
+        /// Метод возвращает true, если проверяемый символ - оператор
+        /// </summary>
+        /// <param name="с"></param>
+        /// <returns></returns>
         static private bool IsOperator(char с)
         {
             if (("+-/*^()".IndexOf(с) != -1))
@@ -38,7 +49,11 @@ namespace AnalaizerClassLib
             return false;
         }
 
-        //Метод возвращает приоритет оператора
+        /// <summary>
+        /// Метод возвращает приоритет оператора
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         static private byte GetPriority(char s)
         {
             switch (s)
@@ -53,16 +68,13 @@ namespace AnalaizerClassLib
                 default: return 6;
             }
         }
-
-        //"Входной" метод класса
         static public double Calculate(string input)
         {
-
             string res = input.Replace(" ", "");
             string output = string.Empty;
             double result = 0;
 
-            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res) && Error8(res))
+            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res) && Error7(res) && Error8(res))
             {
                 output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
                 result = Counting(output); //Решаем полученное выражение
@@ -70,7 +82,6 @@ namespace AnalaizerClassLib
 
             return result; //Возвращаем результат
         }
-
         static private string GetExpression(string input)
         {
 
@@ -162,17 +173,15 @@ namespace AnalaizerClassLib
 
                     switch (input[i]) //И производим над ними действие, согласно оператору
                     {
-                        case '+': result = b + a; break;
-                        case '-': result = b - a; break;
-                        case '*': result = b * a; break;
+                        case '+': result = Calc.Add(b, a); break;
+                        case '-': result = Calc.Sub(b, a); break;
+                        case '*': result = Calc.Mult(b, a); break;
                         case '/':
                             {
-                                if (a == 0) throw new DivideByZeroException();
-                                else result = b / a; break;
-
+                                if (a == 0) throw new Exception(errors[8]);
+                                
+                                result = Calc.Div(b, a); break;
                             }
-
-                        case '^': result = double.Parse(Math.Pow(double.Parse(b.ToString()), double.Parse(a.ToString())).ToString()); break;
                     }
                     temp.Push(result); //Результат вычисления записываем обратно в стек
 
@@ -218,7 +227,6 @@ namespace AnalaizerClassLib
             string ingnore = "()[]{}";
             List<char> operators = new List<char>() { '+', '-', '*', '/' };
 
-            //text[i] != '(' && text[i] != ')'
             for (int i = 0; i < expression.Length; i++)
                 if (!Char.IsDigit(expression[i]) && ingnore.IndexOf(expression[i]) == -1)
                     if ((op.IndexOf(expression[i]) == -1)) throw new Exception(errors[1] + $" на {i}");
@@ -229,13 +237,14 @@ namespace AnalaizerClassLib
         /// <summary>
         /// Два підряд оператори на i символі.
         /// </summary>
-        private static bool  Error4(string expression)
+        private static bool Error4(string expression)
         {
             string op = "+-*/";
 
             for (int i = 0; i < expression.Length; i++)
                 if (op.IndexOf(expression[i]) != -1 && i + 1 != expression.Length)
                     if (op.IndexOf(expression[i + 1]) != -1) throw new Exception(errors[3]);
+
             return true;
         }
 
@@ -297,16 +306,28 @@ namespace AnalaizerClassLib
                     if (num != string.Empty)
                     {
                         double number = Convert.ToDouble(num);
-                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]); 
+                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]);
                         num = string.Empty;
                     }
                 }
             }
 
-      
+
 
             return true;
 
+        }
+
+        /// <summary>
+        /// Дуже довгий вираз. Максмальная довжина — 65536 символiв.
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        private static bool Error7(string expression)
+        {
+            if (expression.Length > 65536) throw new Exception(errors[6]);
+
+            return true;
         }
 
         /// <summary>

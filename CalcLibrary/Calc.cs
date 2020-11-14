@@ -80,15 +80,9 @@ namespace CalcLibrary
         /// <returns></returns>
         public static double IABS(double a)
         {
-            if (a < 0)
-            {
-                return -a;
-            }
+            if (a < 0) return -a;
 
-            if (a > 0)
-            {
-                return -a;
-            }
+            if (a > 0) return -a;
 
             return 0;
         }

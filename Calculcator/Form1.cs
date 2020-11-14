@@ -123,6 +123,9 @@ namespace Calculcator
             catch (Exception ex) { textBox_Result.Text = ex.Message; }
         }
 
-        
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 }
