@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AnalaizerClassLib;
 
 namespace Calculcator
 {
@@ -15,8 +16,19 @@ namespace Calculcator
         public Form1()
         {
             InitializeComponent();
+        }
 
-            MessageBox.Show("Aloha");
+        private void button_total_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double res = 0;
+
+                res = Analaizer.Calculate(textBox_Expression.Text);
+
+                textBox_Result.Text = res.ToString();
+            }
+            catch (Exception ex) { textBox_Result.Text = ex.Message; }
         }
     }
 }

@@ -81,48 +81,6 @@
             this.groupBox_Editing.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox_Editing
-            // 
-            this.groupBox_Editing.Controls.Add(this.button_Backspace);
-            this.groupBox_Editing.Controls.Add(this.button_C);
-            this.groupBox_Editing.Controls.Add(this.button2_Editing);
-            this.groupBox_Editing.Controls.Add(button1_Editing);
-            this.groupBox_Editing.Location = new System.Drawing.Point(12, 61);
-            this.groupBox_Editing.Name = "groupBox_Editing";
-            this.groupBox_Editing.Size = new System.Drawing.Size(271, 70);
-            this.groupBox_Editing.TabIndex = 27;
-            this.groupBox_Editing.TabStop = false;
-            this.groupBox_Editing.Text = "Editing";
-            // 
-            // button_Backspace
-            // 
-            this.button_Backspace.ForeColor = System.Drawing.Color.Red;
-            this.button_Backspace.Location = new System.Drawing.Point(102, 29);
-            this.button_Backspace.Name = "button_Backspace";
-            this.button_Backspace.Size = new System.Drawing.Size(102, 26);
-            this.button_Backspace.TabIndex = 0;
-            this.button_Backspace.Text = "Backspace";
-            this.button_Backspace.UseVisualStyleBackColor = true;
-            // 
-            // button_C
-            // 
-            this.button_C.ForeColor = System.Drawing.Color.Red;
-            this.button_C.Location = new System.Drawing.Point(210, 24);
-            this.button_C.Name = "button_C";
-            this.button_C.Size = new System.Drawing.Size(52, 37);
-            this.button_C.TabIndex = 0;
-            this.button_C.Text = "C";
-            this.button_C.UseVisualStyleBackColor = true;
-            // 
-            // button2_Editing
-            // 
-            this.button2_Editing.Location = new System.Drawing.Point(53, 24);
-            this.button2_Editing.Name = "button2_Editing";
-            this.button2_Editing.Size = new System.Drawing.Size(41, 37);
-            this.button2_Editing.TabIndex = 0;
-            this.button2_Editing.Text = ")";
-            this.button2_Editing.UseVisualStyleBackColor = true;
-            // 
             // button1_Editing
             // 
             button1_Editing.Location = new System.Drawing.Point(6, 24);
@@ -131,21 +89,6 @@
             button1_Editing.TabIndex = 0;
             button1_Editing.Text = "(";
             button1_Editing.UseVisualStyleBackColor = true;
-            // 
-            // textBox_Result
-            // 
-            this.textBox_Result.Location = new System.Drawing.Point(86, 35);
-            this.textBox_Result.Name = "textBox_Result";
-            this.textBox_Result.ReadOnly = true;
-            this.textBox_Result.Size = new System.Drawing.Size(164, 20);
-            this.textBox_Result.TabIndex = 26;
-            // 
-            // textBox_Expression
-            // 
-            this.textBox_Expression.Location = new System.Drawing.Point(86, 7);
-            this.textBox_Expression.Name = "textBox_Expression";
-            this.textBox_Expression.Size = new System.Drawing.Size(164, 20);
-            this.textBox_Expression.TabIndex = 25;
             // 
             // button_total
             // 
@@ -156,6 +99,7 @@
             button_total.TabIndex = 23;
             button_total.Text = "=";
             button_total.UseVisualStyleBackColor = true;
+            button_total.Click += new System.EventHandler(this.button_total_Click);
             // 
             // button_sum
             // 
@@ -335,6 +279,63 @@
             button_1.TabIndex = 4;
             button_1.Text = "1";
             button_1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_Editing
+            // 
+            this.groupBox_Editing.Controls.Add(this.button_Backspace);
+            this.groupBox_Editing.Controls.Add(this.button_C);
+            this.groupBox_Editing.Controls.Add(this.button2_Editing);
+            this.groupBox_Editing.Controls.Add(button1_Editing);
+            this.groupBox_Editing.Location = new System.Drawing.Point(12, 61);
+            this.groupBox_Editing.Name = "groupBox_Editing";
+            this.groupBox_Editing.Size = new System.Drawing.Size(271, 70);
+            this.groupBox_Editing.TabIndex = 27;
+            this.groupBox_Editing.TabStop = false;
+            this.groupBox_Editing.Text = "Editing";
+            // 
+            // button_Backspace
+            // 
+            this.button_Backspace.ForeColor = System.Drawing.Color.Red;
+            this.button_Backspace.Location = new System.Drawing.Point(102, 29);
+            this.button_Backspace.Name = "button_Backspace";
+            this.button_Backspace.Size = new System.Drawing.Size(102, 26);
+            this.button_Backspace.TabIndex = 0;
+            this.button_Backspace.Text = "Backspace";
+            this.button_Backspace.UseVisualStyleBackColor = true;
+            // 
+            // button_C
+            // 
+            this.button_C.ForeColor = System.Drawing.Color.Red;
+            this.button_C.Location = new System.Drawing.Point(210, 24);
+            this.button_C.Name = "button_C";
+            this.button_C.Size = new System.Drawing.Size(52, 37);
+            this.button_C.TabIndex = 0;
+            this.button_C.Text = "C";
+            this.button_C.UseVisualStyleBackColor = true;
+            // 
+            // button2_Editing
+            // 
+            this.button2_Editing.Location = new System.Drawing.Point(53, 24);
+            this.button2_Editing.Name = "button2_Editing";
+            this.button2_Editing.Size = new System.Drawing.Size(41, 37);
+            this.button2_Editing.TabIndex = 0;
+            this.button2_Editing.Text = ")";
+            this.button2_Editing.UseVisualStyleBackColor = true;
+            // 
+            // textBox_Result
+            // 
+            this.textBox_Result.Location = new System.Drawing.Point(86, 35);
+            this.textBox_Result.Name = "textBox_Result";
+            this.textBox_Result.ReadOnly = true;
+            this.textBox_Result.Size = new System.Drawing.Size(188, 20);
+            this.textBox_Result.TabIndex = 26;
+            // 
+            // textBox_Expression
+            // 
+            this.textBox_Expression.Location = new System.Drawing.Point(86, 7);
+            this.textBox_Expression.Name = "textBox_Expression";
+            this.textBox_Expression.Size = new System.Drawing.Size(188, 20);
+            this.textBox_Expression.TabIndex = 25;
             // 
             // label_Result
             // 
