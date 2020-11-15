@@ -268,6 +268,7 @@
             button_sum_and_diff.TabIndex = 7;
             button_sum_and_diff.Text = "+/-";
             button_sum_and_diff.UseVisualStyleBackColor = true;
+            button_sum_and_diff.Click += new System.EventHandler(this.button_sum_and_diff_Click);
             // 
             // button_7
             // 

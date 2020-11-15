@@ -16,7 +16,7 @@ namespace Calculcator
     public partial class Calculator : Form
     {
         double memoryValue = 0;
-
+        char symb;
         public Calculator()
         {
             InitializeComponent();
@@ -166,6 +166,29 @@ namespace Calculcator
         private void button_MR_Click(object sender, EventArgs e)
         {
             textBox_Expression.Text += memoryValue.ToString();
+        }
+
+        private void button_sum_and_diff_Click(object sender, EventArgs e)
+        {
+            symb = textBox_Expression.Text[textBox_Expression.Text.Length - 1];
+            this.Text = symb.ToString();
+
+            if (Char.IsDigit(symb))
+            {
+                textBox_Expression.Text += "-";
+            }
+            else if (symb == '-')
+            {
+                textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
+                textBox_Expression.Text += "+";
+            }
+            else if (symb == '+')
+
+            {
+                textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
+                textBox_Expression.Text += "-";
+
+            }
         }
     }
 }
