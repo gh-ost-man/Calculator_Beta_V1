@@ -219,17 +219,14 @@ namespace AnalaizerClassLib
 
                         switch (input[i]) //И производим над ними действие, согласно оператору
                         {
-                            case '+': result = b + a; break;
-                            case '-': result = b - a; break;
-                            case '*': result = b * a; break;
+                            case '+': result = Calc.Add(b, a); break;
+                            case '-': result = Calc.Sub(b, a); break;
+                            case '*': result = Calc.Mult(b, a); break;
                             case '/':
                                 {
-                                    if (a == 0) throw new DivideByZeroException();
-                                    else result = b / a; break;
-
+                                    if (a == 0) throw new Exception(errors[8]);
+                                    else result = Calc.Div(b, a); break;
                                 }
-
-                            case '^': result = double.Parse(Math.Pow(double.Parse(b.ToString()), double.Parse(a.ToString())).ToString()); break;
                         }
                         temp.Push(result); //Результат вычисления записываем обратно в стек
                     }

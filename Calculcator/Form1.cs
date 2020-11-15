@@ -132,7 +132,7 @@ namespace Calculcator
         {
             if (textBox_Expression.Text == string.Empty || textBox_Result.Text == string.Empty) return;
 
-            string symb = "{}()[]@#$%^&/*-+";
+            string symb = "()/*-+";
 
             for (int i = 0; i < textBox_Expression.Text.Length; i++)
                 if (symb.IndexOf(textBox_Expression.Text[i]) != -1) return;
@@ -146,6 +146,8 @@ namespace Calculcator
 
         private void button_M_Click(object sender, EventArgs e)
         {
+            if (textBox_Result.Text.Length == 0) return;
+
             string pattern = @"[a-z]";
 
             Regex regex = new Regex(pattern);
@@ -170,24 +172,19 @@ namespace Calculcator
 
         private void button_sum_and_diff_Click(object sender, EventArgs e)
         {
+            if (textBox_Expression.Text.Length == 0) return;
             symb = textBox_Expression.Text[textBox_Expression.Text.Length - 1];
-            this.Text = symb.ToString();
 
-            if (Char.IsDigit(symb))
-            {
-                textBox_Expression.Text += "-";
-            }
+            if (Char.IsDigit(symb)) textBox_Expression.Text += "-";
             else if (symb == '-')
             {
                 textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
                 textBox_Expression.Text += "+";
             }
             else if (symb == '+')
-
             {
                 textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
                 textBox_Expression.Text += "-";
-
             }
         }
     }
