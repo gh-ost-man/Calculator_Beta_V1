@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CalcLibrary;
 
@@ -94,6 +95,31 @@ namespace AnalaizerClassLib
                 if (IsDelimeter(input[i]))
                     continue; //Переходим к следующему символу
 
+                if (input[i] == '(') //Перевіяєм чи є відємне число
+                {
+
+                    int index = input.IndexOf(')', i);
+
+                    string tmp = input.Substring(i, index - i + 1);
+
+
+                    Regex regex = new Regex(@"\([-](.\d*)\)");
+
+                    if (regex.IsMatch(tmp))
+                    {
+                        Match match = Regex.Match(tmp, @"\([-](.\d*)\)");
+
+                        double n = Convert.ToDouble(match.Groups[1].Value);
+
+                        output += -n;
+                        i = index + 1;
+                    }
+                    output += " ";
+                }
+
+
+                if (i >= input.Length) break;
+
                 //Если символ - цифра, то считываем все число
                 if (Char.IsDigit(input[i])) //Если цифра
                 {
@@ -105,10 +131,12 @@ namespace AnalaizerClassLib
 
                         if (i == input.Length) break; //Если символ - последний, то выходим из цикла
                     }
-
                     output += " "; //Дописываем после числа пробел в строку с выражением
                     i--; //Возвращаемся на один символ назад, к символу перед разделителем
                 }
+
+
+
 
                 //Если символ - оператор
                 if (IsOperator(input[i])) //Если оператор
@@ -125,6 +153,7 @@ namespace AnalaizerClassLib
                             output += s.ToString() + ' ';
                             s = operStack.Pop();
                         }
+
                     }
                     else //Если любой другой оператор
                     {
@@ -142,6 +171,7 @@ namespace AnalaizerClassLib
             while (operStack.Count > 0)
                 output += operStack.Pop() + " ";
 
+
             return output; //Возвращаем выражение в постфиксной записи
         }
         static private double Counting(string input)
@@ -152,9 +182,10 @@ namespace AnalaizerClassLib
             for (int i = 0; i < input.Length; i++) //Для каждого символа в строке
             {
                 //Если символ - цифра, то читаем все число и записываем на вершину стека
-                if (Char.IsDigit(input[i]))
+                if (input[i] == '-' && Char.IsDigit(input[i + 1]))
                 {
-                    string a = string.Empty;
+                    string a = "-";
+                    i++;
 
                     while (!IsDelimeter(input[i]) && !IsOperator(input[i])) //Пока не разделитель
                     {
@@ -165,31 +196,48 @@ namespace AnalaizerClassLib
                     temp.Push(double.Parse(a)); //Записываем в стек
                     i--;
                 }
-                else if (IsOperator(input[i])) //Если символ - оператор
+                else
                 {
-                    //Берем два последних значения из стека
-                    double a = temp.Pop();
-                    double b = temp.Pop();
-
-                    switch (input[i]) //И производим над ними действие, согласно оператору
+                    if (Char.IsDigit(input[i]))
                     {
-                        case '+': result = Calc.Add(b, a); break;
-                        case '-': result = Calc.Sub(b, a); break;
-                        case '*': result = Calc.Mult(b, a); break;
-                        case '/':
-                            {
-                                if (a == 0) throw new Exception(errors[8]);
-                                
-                                result = Calc.Div(b, a); break;
-                            }
-                    }
-                    temp.Push(result); //Результат вычисления записываем обратно в стек
+                        string a = string.Empty;
 
+                        while (!IsDelimeter(input[i]) && !IsOperator(input[i])) //Пока не разделитель
+                        {
+                            a += input[i]; //Добавляем
+                            i++;
+                            if (i == input.Length) break;
+                        }
+                        temp.Push(double.Parse(a)); //Записываем в стек
+                        i--;
+                    }
+                    else if (IsOperator(input[i])) //Если символ - оператор
+                    {
+                        //Берем два последних значения из стека
+                        double a = temp.Pop();
+                        double b = temp.Pop();
+
+                        switch (input[i]) //И производим над ними действие, согласно оператору
+                        {
+                            case '+': result = b + a; break;
+                            case '-': result = b - a; break;
+                            case '*': result = b * a; break;
+                            case '/':
+                                {
+                                    if (a == 0) throw new DivideByZeroException();
+                                    else result = b / a; break;
+
+                                }
+
+                            case '^': result = double.Parse(Math.Pow(double.Parse(b.ToString()), double.Parse(a.ToString())).ToString()); break;
+                        }
+                        temp.Push(result); //Результат вычисления записываем обратно в стек
+                    }
                 }
+
             }
             return temp.Peek(); //Забираем результат всех вычислений из стека и возвращаем его
         }
-
 
         /// <summary>
         /// Неправильна структура в дужках
