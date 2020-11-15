@@ -74,7 +74,7 @@ namespace AnalaizerClassLib
             string output = string.Empty;
             double result = 0;
 
-            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res) && Error7(res) && Error8(res))
+            if (Error1(res) && Error2(res) && Error3(res) && Error4(res) && Error5(res) && Error6(res) && Error7(res) && Error8(res))
             {
                 output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
                 result = Counting(output); //Решаем полученное выражение
@@ -230,6 +230,27 @@ namespace AnalaizerClassLib
             for (int i = 0; i < expression.Length; i++)
                 if (!Char.IsDigit(expression[i]) && ingnore.IndexOf(expression[i]) == -1)
                     if ((op.IndexOf(expression[i]) == -1)) throw new Exception(errors[1] + $" на {i}");
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Невiрна синтаксична конструкцiя вхiдного виразу.,
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        private static bool Error3(string expression)
+        {
+            string op = "+/*-";
+            for (int i = 0; i < expression.Length; i++)
+            {
+                if (expression[i] == '(')
+                {
+                    if (i == 0) continue;
+                    else if (op.IndexOf(expression[i - 1]) == -1) throw new Exception(errors[2]);
+                }
+            }
 
             return true;
         }
