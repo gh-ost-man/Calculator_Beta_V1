@@ -146,7 +146,7 @@ namespace Calculcator
 
         private void button_M_Click(object sender, EventArgs e)
         {
-            string pattern = @"[a-z!@#$%^*(){}/+*-]";
+            string pattern = @"[a-z]";
 
             Regex regex = new Regex(pattern);
 
