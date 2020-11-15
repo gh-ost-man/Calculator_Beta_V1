@@ -154,7 +154,7 @@ namespace Calculcator
 
             if (regex.IsMatch(textBox_Result.Text))
             {
-                MessageBox.Show("Неможливо перетворити до числа");
+                MessageBox.Show("Неможливо перетворити до числа","Error 09");
                 return;
             }
             else memoryValue += Convert.ToDouble(textBox_Result.Text);
