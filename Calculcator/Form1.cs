@@ -5,14 +5,18 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AnalaizerClassLib;
+using CalcLibrary;
 
 namespace Calculcator
 {
     public partial class Calculator : Form
     {
+        double memoryValue = 0;
+        char symb;
         public Calculator()
         {
             InitializeComponent();
@@ -119,13 +123,69 @@ namespace Calculcator
                 res = Analaizer.Calculate(textBox_Expression.Text);
 
                 textBox_Result.Text = res.ToString();
+                textBox_Expression.Text = string.Empty;
             }
             catch (Exception ex) { textBox_Result.Text = ex.Message; }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void button_Mod_Click(object sender, EventArgs e)
         {
+            if (textBox_Expression.Text == string.Empty || textBox_Result.Text == string.Empty) return;
 
+            string symb = "()/*-+";
+
+            for (int i = 0; i < textBox_Expression.Text.Length; i++)
+                if (symb.IndexOf(textBox_Expression.Text[i]) != -1) return;
+
+
+            double n1 = Convert.ToDouble(textBox_Result.Text);
+            double n2 = Convert.ToDouble(textBox_Expression.Text);
+
+            textBox_Result.Text = Calc.Mod(n1, n2).ToString();
+        }
+
+        private void button_M_Click(object sender, EventArgs e)
+        {
+            if (textBox_Result.Text.Length == 0) return;
+
+            string pattern = @"[a-z]";
+
+            Regex regex = new Regex(pattern);
+
+            if (regex.IsMatch(textBox_Result.Text))
+            {
+                MessageBox.Show("Неможливо перетворити до числа","Error 09");
+                return;
+            }
+            else memoryValue += Convert.ToDouble(textBox_Result.Text);
+        }
+
+        private void button_MC_Click(object sender, EventArgs e)
+        {
+            memoryValue = 0;
+        }
+
+        private void button_MR_Click(object sender, EventArgs e)
+        {
+            textBox_Expression.Text += memoryValue.ToString();
+        }
+
+        private void button_sum_and_diff_Click(object sender, EventArgs e)
+        {
+            if (textBox_Expression.Text.Length == 0) return;
+            symb = textBox_Expression.Text[textBox_Expression.Text.Length - 1];
+
+            if (Char.IsDigit(symb)) textBox_Expression.Text += "-";
+            else if (symb == '-')
+            {
+                textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
+                textBox_Expression.Text += "+";
+            }
+            else if (symb == '+')
+            {
+                textBox_Expression.Text = textBox_Expression.Text.Remove(textBox_Expression.Text.Length - 1, 1);
+                textBox_Expression.Text += "-";
+            }
         }
     }
 }

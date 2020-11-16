@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CalcLibrary;
 
@@ -84,7 +85,6 @@ namespace AnalaizerClassLib
         }
         static private string GetExpression(string input)
         {
-
             string output = string.Empty; //Строка для хранения выражения
             Stack<char> operStack = new Stack<char>(); //Стек для хранения операторов
 
@@ -93,6 +93,31 @@ namespace AnalaizerClassLib
                 //Разделители пропускаем
                 if (IsDelimeter(input[i]))
                     continue; //Переходим к следующему символу
+
+                if (input[i] == '(') //Перевіяєм чи є відємне число
+                {
+
+                    int index = input.IndexOf(')', i);
+
+                    string tmp = input.Substring(i, index - i + 1);
+
+
+                    Regex regex = new Regex(@"\([-](.\d*)\)");
+
+                    if (regex.IsMatch(tmp))
+                    {
+                        Match match = Regex.Match(tmp, @"\([-](.\d*)\)");
+
+                        double n = Convert.ToDouble(match.Groups[1].Value);
+
+                        output += -n;
+                        i = index + 1;
+                    }
+                    output += " ";
+                }
+
+
+                if (i >= input.Length) break;
 
                 //Если символ - цифра, то считываем все число
                 if (Char.IsDigit(input[i])) //Если цифра
@@ -105,10 +130,12 @@ namespace AnalaizerClassLib
 
                         if (i == input.Length) break; //Если символ - последний, то выходим из цикла
                     }
-
                     output += " "; //Дописываем после числа пробел в строку с выражением
                     i--; //Возвращаемся на один символ назад, к символу перед разделителем
                 }
+
+
+
 
                 //Если символ - оператор
                 if (IsOperator(input[i])) //Если оператор
@@ -125,6 +152,7 @@ namespace AnalaizerClassLib
                             output += s.ToString() + ' ';
                             s = operStack.Pop();
                         }
+
                     }
                     else //Если любой другой оператор
                     {
@@ -142,6 +170,7 @@ namespace AnalaizerClassLib
             while (operStack.Count > 0)
                 output += operStack.Pop() + " ";
 
+
             return output; //Возвращаем выражение в постфиксной записи
         }
         static private double Counting(string input)
@@ -152,9 +181,10 @@ namespace AnalaizerClassLib
             for (int i = 0; i < input.Length; i++) //Для каждого символа в строке
             {
                 //Если символ - цифра, то читаем все число и записываем на вершину стека
-                if (Char.IsDigit(input[i]))
+                if (input[i] == '-' && Char.IsDigit(input[i + 1]))
                 {
-                    string a = string.Empty;
+                    string a = "-";
+                    i++;
 
                     while (!IsDelimeter(input[i]) && !IsOperator(input[i])) //Пока не разделитель
                     {
@@ -165,31 +195,45 @@ namespace AnalaizerClassLib
                     temp.Push(double.Parse(a)); //Записываем в стек
                     i--;
                 }
-                else if (IsOperator(input[i])) //Если символ - оператор
+                else
                 {
-                    //Берем два последних значения из стека
-                    double a = temp.Pop();
-                    double b = temp.Pop();
-
-                    switch (input[i]) //И производим над ними действие, согласно оператору
+                    if (Char.IsDigit(input[i]))
                     {
-                        case '+': result = Calc.Add(b, a); break;
-                        case '-': result = Calc.Sub(b, a); break;
-                        case '*': result = Calc.Mult(b, a); break;
-                        case '/':
-                            {
-                                if (a == 0) throw new Exception(errors[8]);
-                                
-                                result = Calc.Div(b, a); break;
-                            }
-                    }
-                    temp.Push(result); //Результат вычисления записываем обратно в стек
+                        string a = string.Empty;
 
+                        while (!IsDelimeter(input[i]) && !IsOperator(input[i])) //Пока не разделитель
+                        {
+                            a += input[i]; //Добавляем
+                            i++;
+                            if (i == input.Length) break;
+                        }
+                        temp.Push(double.Parse(a)); //Записываем в стек
+                        i--;
+                    }
+                    else if (IsOperator(input[i])) //Если символ - оператор
+                    {
+                        //Берем два последних значения из стека
+                        double a = temp.Pop();
+                        double b = temp.Pop();
+
+                        switch (input[i]) //И производим над ними действие, согласно оператору
+                        {
+                            case '+': result = Calc.Add(b, a); break;
+                            case '-': result = Calc.Sub(b, a); break;
+                            case '*': result = Calc.Mult(b, a); break;
+                            case '/':
+                                {
+                                    if (a == 0) throw new Exception(errors[8]);
+                                    else result = Calc.Div(b, a); break;
+                                }
+                        }
+                        temp.Push(result); //Результат вычисления записываем обратно в стек
+                    }
                 }
+
             }
             return temp.Peek(); //Забираем результат всех вычислений из стека и возвращаем его
         }
-
 
         /// <summary>
         /// Неправильна структура в дужках
@@ -230,6 +274,27 @@ namespace AnalaizerClassLib
             for (int i = 0; i < expression.Length; i++)
                 if (!Char.IsDigit(expression[i]) && ingnore.IndexOf(expression[i]) == -1)
                     if ((op.IndexOf(expression[i]) == -1)) throw new Exception(errors[1] + $" на {i}");
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Невiрна синтаксична конструкцiя вхiдного виразу.,
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        private static bool Error3(string expression)
+        {
+            string op = "+/*-";
+            for (int i = 0; i < expression.Length; i++)
+            {
+                if (expression[i] == '(')
+                {
+                    if (i == 0) continue;
+                    else if (op.IndexOf(expression[i - 1]) == -1) throw new Exception(errors[2]);
+                }
+            }
 
             return true;
         }
@@ -294,12 +359,16 @@ namespace AnalaizerClassLib
             string num = string.Empty;
 
 
-
             for (int i = 0; i < expression.Length; i++)
             {
                 if (Char.IsDigit(expression[i]))
                 {
                     num += expression[i];
+                    if (i + 1 == expression.Length)
+                    {
+                        double number = Convert.ToDouble(num);
+                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]);
+                    }
                 }
                 else
                 {

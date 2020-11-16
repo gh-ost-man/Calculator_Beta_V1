@@ -122,6 +122,7 @@
             button_MC.TabIndex = 21;
             button_MC.Text = "MC";
             button_MC.UseVisualStyleBackColor = true;
+            button_MC.Click += new System.EventHandler(this.button_MC_Click);
             // 
             // button_diff
             // 
@@ -143,6 +144,7 @@
             button_M.TabIndex = 19;
             button_M.Text = "M+";
             button_M.UseVisualStyleBackColor = true;
+            button_M.Click += new System.EventHandler(this.button_M_Click);
             // 
             // button_MR
             // 
@@ -153,6 +155,7 @@
             button_MR.TabIndex = 18;
             button_MR.Text = "MR";
             button_MR.UseVisualStyleBackColor = true;
+            button_MR.Click += new System.EventHandler(this.button_MR_Click);
             // 
             // button_multi
             // 
@@ -215,6 +218,7 @@
             button_Mod.TabIndex = 12;
             button_Mod.Text = "Mod";
             button_Mod.UseVisualStyleBackColor = true;
+            button_Mod.Click += new System.EventHandler(this.button_Mod_Click);
             // 
             // button_Zero
             // 
@@ -264,6 +268,7 @@
             button_sum_and_diff.TabIndex = 7;
             button_sum_and_diff.Text = "+/-";
             button_sum_and_diff.UseVisualStyleBackColor = true;
+            button_sum_and_diff.Click += new System.EventHandler(this.button_sum_and_diff_Click);
             // 
             // button_7
             // 
