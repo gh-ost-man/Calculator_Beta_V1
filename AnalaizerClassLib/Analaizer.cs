@@ -238,7 +238,7 @@ namespace AnalaizerClassLib
         /// <summary>
         /// Неправильна структура в дужках
         /// </summary>
-        private static bool Error1(string expression)
+        public static bool Error1(string expression)
         {
             //Error 01 at < i > — Неправильна структура в дужках, помилка на<i> символі.  OKK
 
@@ -249,21 +249,27 @@ namespace AnalaizerClassLib
                 if (expression[i] == '(') stk.Push(i);
                 else if (expression[i] == ')')
                 {
-                    if (stk.Count == 0) throw new Exception(errors[0] + $" на позиції {i}");
-
+                    if (stk.Count == 0)
+                    {
+                        return false;
+                        throw new Exception(errors[0] + $" на позиції {i}");
+                    }
                     stk.Pop();
                 }
             }
 
-            if (stk.Count != 0) throw new Exception(errors[0] + $" на позиції {stk.Peek()}");
-
+            if (stk.Count != 0)
+            {
+                return false;
+                throw new Exception(errors[0] + $" на позиції {stk.Peek()}");
+            }
             return true;
         }
 
         /// <summary>
         ///  Error 02 — Невідомий оператор на i символі.
         /// </summary>
-        private static bool Error2(string expression)
+        public static bool Error2(string expression)
         {
             //Error 02 at < i > — Невідомий оператор на<i> символі.
 
@@ -273,8 +279,11 @@ namespace AnalaizerClassLib
 
             for (int i = 0; i < expression.Length; i++)
                 if (!Char.IsDigit(expression[i]) && ingnore.IndexOf(expression[i]) == -1)
-                    if ((op.IndexOf(expression[i]) == -1)) throw new Exception(errors[1] + $" на {i}");
-
+                    if ((op.IndexOf(expression[i]) == -1))
+                    {
+                        return false;
+                        throw new Exception(errors[1] + $" на {i}");
+                    }
             return true;
         }
 
@@ -284,7 +293,7 @@ namespace AnalaizerClassLib
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        private static bool Error3(string expression)
+        public static bool Error3(string expression)
         {
             string op = "+/*-";
             for (int i = 0; i < expression.Length; i++)
@@ -292,7 +301,11 @@ namespace AnalaizerClassLib
                 if (expression[i] == '(')
                 {
                     if (i == 0) continue;
-                    else if (op.IndexOf(expression[i - 1]) == -1) throw new Exception(errors[2]);
+                    else if (op.IndexOf(expression[i - 1]) == -1)
+                    {
+                        return false;
+                        throw new Exception(errors[2]);
+                    }
                 }
             }
 
@@ -302,21 +315,24 @@ namespace AnalaizerClassLib
         /// <summary>
         /// Два підряд оператори на i символі.
         /// </summary>
-        private static bool Error4(string expression)
+        public static bool Error4(string expression)
         {
             string op = "+-*/";
 
             for (int i = 0; i < expression.Length; i++)
                 if (op.IndexOf(expression[i]) != -1 && i + 1 != expression.Length)
-                    if (op.IndexOf(expression[i + 1]) != -1) throw new Exception(errors[3]);
-
+                    if (op.IndexOf(expression[i + 1]) != -1)
+                    {
+                        return false;
+                        throw new Exception(errors[3]);
+                    }
             return true;
         }
 
         /// <summary>
         /// "Незавершений вираз.",
         /// </summary>
-        private static bool Error5(string expression)
+        public static bool Error5(string expression)
         {
             string symb = "(){}[]";
             string operators = "+-*/";
@@ -344,8 +360,11 @@ namespace AnalaizerClassLib
             Console.WriteLine(symb.IndexOf(expression[0]));
             Console.WriteLine(symb.IndexOf(expression[expression.Length - 1]));
 
-            if (operators.IndexOf(tt[0]) != -1 || operators.IndexOf(tt[tt.Length - 1]) != -1) throw new Exception(errors[4]);
-
+            if (operators.IndexOf(tt[0]) != -1 || operators.IndexOf(tt[tt.Length - 1]) != -1)
+            {
+                return false;
+                throw new Exception(errors[4]);
+            }
 
             return true;
         }
@@ -354,7 +373,7 @@ namespace AnalaizerClassLib
         /// Error 06 — Дуже мале, або дуже велике значення числа для int.
         /// Числа повинні бути в межах від -2147483648 до 2147483647.
         /// </summary>
-        private static bool Error6(string expression)
+        public static bool Error6(string expression)
         {
             string num = string.Empty;
 
@@ -367,7 +386,11 @@ namespace AnalaizerClassLib
                     if (i + 1 == expression.Length)
                     {
                         double number = Convert.ToDouble(num);
-                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]);
+                        if (number < -2147483648 || number > 2147483647)
+                        {
+                            return false;
+                            throw new Exception(errors[5]);
+                        }
                     }
                 }
                 else
@@ -375,7 +398,11 @@ namespace AnalaizerClassLib
                     if (num != string.Empty)
                     {
                         double number = Convert.ToDouble(num);
-                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]);
+                        if (number < -2147483648 || number > 2147483647)
+                        {
+                            return false;
+                            throw new Exception(errors[5]);
+                        }
                         num = string.Empty;
                     }
                 }
@@ -392,17 +419,20 @@ namespace AnalaizerClassLib
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        private static bool Error7(string expression)
+        public static bool Error7(string expression)
         {
-            if (expression.Length > 65536) throw new Exception(errors[6]);
-
+            if (expression.Length > 65536)
+            {
+                return false;
+                throw new Exception(errors[6]);
+            }
             return true;
         }
 
         /// <summary>
         /// Сумарна кiлькiсть чисел i операторiв перевищує 30.",
         /// </summary>
-        private static bool Error8(string expression)
+        public static bool Error8(string expression)
         {
             string num = string.Empty;
             string operatores = "+/*-";
@@ -427,8 +457,11 @@ namespace AnalaizerClassLib
                 if (operatores.IndexOf(expression[i]) != -1) ar.Add(expression[i]);
             }
 
-            if (ar.Count > 30) throw new Exception(errors[7]);
-
+            if (ar.Count > 30)
+            {
+                return false;
+                throw new Exception(errors[7]);
+            }
             return true;
         }
     }

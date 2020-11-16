@@ -36,7 +36,7 @@ namespace TestCalcLibrary
         public void mult_2_on_2_return_4()
         {
             double res = CalcLibrary.Calc.Mult(2, 2);
-            Assert.AreEqual(2, res);
+            Assert.AreEqual(4, res);
         }
 
 
