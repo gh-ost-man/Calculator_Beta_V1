@@ -360,12 +360,16 @@ namespace AnalaizerClassLib
             string num = string.Empty;
 
 
-
             for (int i = 0; i < expression.Length; i++)
             {
                 if (Char.IsDigit(expression[i]))
                 {
                     num += expression[i];
+                    if (i + 1 == expression.Length)
+                    {
+                        double number = Convert.ToDouble(num);
+                        if (number < -2147483648 || number > 2147483647) throw new Exception(errors[5]);
+                    }
                 }
                 else
                 {
