@@ -75,7 +75,7 @@ namespace AnalaizerClassLib
             string output = string.Empty;
             double result = 0;
 
-            if (Error1(res) && Error2(res) && Error3(res) && Error4(res) && Error5(res) && Error6(res) && Error7(res) && Error8(res))
+            if (Error1(res) && Error2(res) && Error4(res) && Error5(res) && Error6(res) && Error7(res) && Error8(res))
             {
                 output = GetExpression(input); //Преобразовываем выражение в постфиксную запись
                 result = Counting(output); //Решаем полученное выражение
@@ -85,7 +85,6 @@ namespace AnalaizerClassLib
         }
         static private string GetExpression(string input)
         {
-
             string output = string.Empty; //Строка для хранения выражения
             Stack<char> operStack = new Stack<char>(); //Стек для хранения операторов
 
